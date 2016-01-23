@@ -25,4 +25,26 @@ describe('gates', function() {
       gates.nor(c, input1, input2, output1);
     });
   });
+  describe('srlatch', function() {
+    it('keeps state', function() {
+      var c = new Circuit();
+
+      var w1 = c.wire();
+      var w2 = c.wire();
+      var w3 = c.wire();
+      var w4 = c.wire();
+
+      gates.srlatch(c, w1, w2, w3, w4);
+
+      c.on(w1);
+      c.off(w2);
+      assert.equal(c.state(w3), false);
+      assert.equal(c.state(w4), true);
+
+      c.off(w1);
+      c.on(w2);
+      assert.equal(c.state(w3), true);
+      assert.equal(c.state(w4), false);
+    });
+  });
 });
