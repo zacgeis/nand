@@ -1,79 +1,158 @@
-function Wire() {
-  this._state = false;
-  this._out = null;
-}
-Wire.prototype = {
-  state: function() {
-    return this._state;
-  },
-  changeState: function(newState) {
-    this._state = newState
-    if(this._out !== null) {
-      this._out.changeState(this._state);
-    }
-  },
-  on: function() {
-    this.changeState(true);
-  },
-  off: function() {
-    this.changeState(false);
-  },
-  output: function(wire) {
-    this._out = wire;
-  }
-};
+var comps = {};
+var compCount = 0;
+
 function wire() {
-  return new Wire();
+  var comp = {
+    type: 'wire',
+    id: compCount++,
+    input: [],
+    output: [],
+    state: false
+  };
+  comps[comp.id] = comp;
+  return comp;
 }
-function Nand(in1, in2, out1) {
-  this._in1 = in1;
-  this._in2 = in2;
-  this._out1 = out1;
 
-  this._in1.output(this);
-  this._in2.output(this);
+var TRUE = wire();
+TRUE.state = true;
 
-  this.changeState();
-}
-Nand.prototype = {
-  changeState: function() {
-    var a = this._in1.state();
-    var b = this._in2.state();
-    this._out1.changeState(!(a && b));
-  },
-};
+var FALSE = wire();
+TRUE.state = false;
+
 function nand(in1, in2, out1) {
-  return new Nand(in1, in2, out1);
+  var comp = {
+    type: 'nand',
+    id: compCount++,
+    input: [in1.id, in2.id],
+    output: [out1.id],
+    state: false
+  };
+
+  in1.output.push(comp.id);
+  in2.output.push(comp.id);
+  out1.input.push(comp.id);
+
+  comps[comp.id] = comp;
+  return comp;
 }
 
-// --
+function propogate(comp) {
+  var nextPending = [];
+  var pending = comp.output;
+
+  while(pending.length > 0) {
+    for(var i = 0; i < pending.length; i++) {
+      var pendingComp = comps[pending[i]];
+      nextPending = nextPending.concat(pendingComp.output);
+      if(pendingComp.type === 'wire') {
+        // assumes wire only has a single input
+        pendingComp.state = comps[pendingComp.input[0]].state;
+      }
+      if(pendingComp.type === 'nand') {
+        // assumes nand only has two inputs
+        var t1 = comps[pendingComp.input[0]].state;
+        var t2 = comps[pendingComp.input[1]].state;
+        pendingComp.state = !(t1 && t2);
+      }
+    }
+    pending = nextPending;
+    nextPending = [];
+  }
+}
+
+function on(comp) {
+  comp.state = true;
+  propogate(comp);
+}
+
+function off(comp) {
+  comp.state = false;
+  propogate(comp);
+}
+
+function state(comp) {
+  return comp.state;
+}
+
+function expect(message, expectedValue, actualValue) {
+  if(expectedValue !== actualValue) {
+    console.log(message, ' actual value: ', actualValue, ' expected: ', expectedValue);
+  }
+}
 
 function or(in1, in2, out1) {
-  var e = wire();
-  var f = wire();
+  var a = wire();
+  var b = wire();
 
-  nand(in1, in1, e);
-  nand(in2, in2, f);
-  nand(e, f, out1);
+  nand(in1, in1, a);
+  nand(in2, in2, b);
+  nand(a, b, out1);
 }
 
-function main() {
+function nor(in1, in2, out1) {
   var a = wire();
   var b = wire();
   var c = wire();
 
-  var original = a;
-
-  var gateCount = 1000;
-  for(var i = 0; i < gateCount; i++) {
-    or(a, b, c);
-    a = c;
-    b = wire();
-    c = wire();
-  }
-
-  original.on();
-  console.log(a.state());
+  nand(in1, in1, a);
+  nand(in2, in2, b);
+  nand(a, b, c);
+  nand(c, c, out1);
 }
 
-main();
+function testNand() {
+  var a = wire();
+  var b = wire();
+  var c = wire();
+
+  nand(a, b, c);
+
+  expect('should state at false', false, state(c));
+
+  on(a);
+  expect('a being on should cause c to be true', true, state(c));
+
+  on(b);
+  expect('a and b being on should cause c to be false', false, state(c));
+}
+
+function testMassiveOr() {
+  var a = wire();
+  var c;
+
+  for(var i = 0; i < 1000; i++) {
+    c = wire();
+    or(a, a, c);
+    a = c;
+  }
+
+  on(a);
+  console.log(state(c));
+
+  off(a);
+  console.log(state(c));
+}
+
+
+function testLatch() {
+  var a = wire();
+  var b = wire();
+  var c = wire();
+
+  nor(a, b, c);
+
+  // cycle everything on or off
+
+  off(a);
+  console.log(state(c));
+
+  off(b);
+  console.log(state(c));
+
+  on(a);
+  console.log(state(c));
+}
+
+//testNand();
+//testMassiveOr();
+testLatch();
