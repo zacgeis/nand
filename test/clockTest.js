@@ -1,5 +1,6 @@
 var assert = require('assert');
 var helper = require('./helper');
+var gates = require('../lib/gates');
 
 var Circuit = require('../lib/circuit');
 var Clock = require('../lib/clock');
@@ -17,7 +18,7 @@ describe('Clock', function() {
     var w2 = clock.wire();
     var w3 = circuit.wire();
 
-    circuit.nand(w1, w2, w3);
+    gates.nand(circuit, w1, w2, w3);
     circuit.on(w1);
 
     clock.start();
