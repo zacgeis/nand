@@ -4,8 +4,8 @@ var helper = require('./helper');
 var Circuit = require('../lib/circuit');
 var gates = require('../lib/gates');
 
-describe('scale', function() {
-  it('works with 100K chained slow ORs', function() {
+describe('performance', function() {
+  it('with 100K chained slow ORs', function() {
     var c = new Circuit();
     var w1 = c.wire();
     var w2 = w1
