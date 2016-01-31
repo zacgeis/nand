@@ -6,7 +6,7 @@ var gates = require('../lib/gates');
 
 describe('gates', function() {
   describe('nand', function () {
-    helper.basicLogicGate([
+    helper.twoInOneOut([
       [0,0,1],
       [0,1,1],
       [1,0,1],
@@ -16,7 +16,7 @@ describe('gates', function() {
     });
   });
   describe('or', function () {
-    helper.basicLogicGate([
+    helper.twoInOneOut([
       [0,0,0],
       [0,1,1],
       [1,0,1],
@@ -26,7 +26,7 @@ describe('gates', function() {
     });
   });
   describe('nor', function () {
-    helper.basicLogicGate([
+    helper.twoInOneOut([
       [0,0,1],
       [0,1,0],
       [1,0,0],
@@ -36,41 +36,15 @@ describe('gates', function() {
     });
   });
   describe('not', function() {
-    it('defaults 1', function() {
-      var c = new Circuit();
-
-      var w1 = c.wire();
-      var w2 = c.wire();
-
-      gates.not(c, w1, w2);
-
-      assert.equal(c.state(w2), true);
-    });
-    it('outputs 0 when given 1', function() {
-      var c = new Circuit();
-
-      var w1 = c.wire();
-      var w2 = c.wire();
-
-      gates.not(c, w1, w2);
-
-      c.on(w1);
-      assert.equal(c.state(w2), false);
-    });
-    it('outputs 1 when given 0', function() {
-      var c = new Circuit();
-
-      var w1 = c.wire();
-      var w2 = c.wire();
-
-      gates.not(c, w1, w2);
-
-      c.off(w1);
-      assert.equal(c.state(w2), true);
+    helper.oneInOneOut([
+      [0,1],
+      [1,0],
+    ], function(c, input1, output1) {
+      gates.not(c, input1, output1);
     });
   });
   describe('and', function () {
-    helper.basicLogicGate([
+    helper.twoInOneOut([
       [0,0,0],
       [0,1,0],
       [1,0,0],
@@ -80,13 +54,37 @@ describe('gates', function() {
     });
   });
   describe('xor', function () {
-    helper.basicLogicGate([
+    helper.twoInOneOut([
       [0,0,0],
       [0,1,1],
       [1,0,1],
       [1,1,0]
     ], function(c, input1, input2, output1) {
       gates.xor(c, input1, input2, output1);
+    });
+  });
+  describe('halfadder', function () {
+    helper.twoInTwoOut([
+      [0,0,0,0],
+      [1,0,0,1],
+      [0,1,0,1],
+      [1,1,1,0]
+    ], function(c, input1, input2, carry, sum) {
+      gates.halfadder(c, input1, input2, carry, sum);
+    });
+  });
+  describe('fulladder', function () {
+    helper.threeInTwoOut([
+      [0,0,0,0,0],
+      [0,0,1,0,1],
+      [0,1,0,0,1],
+      [0,1,1,1,0],
+      [1,0,0,0,1],
+      [1,0,1,1,0],
+      [1,1,0,1,0],
+      [1,1,1,1,1]
+    ], function(c, input1, input2, input3, carry, sum) {
+      gates.fulladder(c, input1, input2, input3, carry, sum);
     });
   });
   describe('srlatch', function() {

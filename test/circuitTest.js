@@ -25,7 +25,7 @@ describe('Circuit', function() {
   });
 
   describe('nand', function () {
-    helper.basicLogicGate([
+    helper.twoInOneOut([
       [0,0,1],
       [0,1,1],
       [1,0,1],
