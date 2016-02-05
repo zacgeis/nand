@@ -143,4 +143,30 @@ describe('gates', function() {
       assert.equal(c.state(carry), true);
     });
   });
+  describe('srflipflop', function () {
+    it('stores bits', function() {
+      var c = new Circuit();
+
+      var s = c.wires(8);
+      var r = c.wires(8);
+      var q = c.wires(8);
+      var qp = c.wires(8);
+
+      gates.srflipflop(c, s, r, q, qp);
+
+      c.on(s[0]);
+      c.tick();
+      c.off(s[0]);
+
+      assert.equal(c.state(q[0]), false);
+      assert.equal(c.state(qp[0]), true);
+
+      c.on(r[0]);
+      c.tick();
+      c.off(r[0]);
+
+      assert.equal(c.state(q[0]), true);
+      assert.equal(c.state(qp[0]), false);
+    });
+  });
 });

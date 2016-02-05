@@ -14,23 +14,25 @@ describe('Clock', function() {
 
   it('works', function(done) {
     var clock = new Clock(circuit, 20);
-    var w1 = circuit.wire();
-    var w2 = clock.wire();
-    var w3 = circuit.wire();
 
-    gates.nand(circuit, w1, w2, w3);
-    circuit.on(w1);
+    var s = circuit.wires(8);
+    var r = circuit.wires(8);
+    var q = circuit.wires(8);
+    var qp = circuit.wires(8);
+
+    gates.srflipflop(circuit, s, r, q, qp);
 
     clock.start();
 
     var t1 = setTimeout(function() {
-      assert.equal(circuit.state(w3), false);
+      circuit.on(s[0]);
+      assert.equal(circuit.state(q[0]), true);
+      assert.equal(circuit.state(qp[0]), false);
     }, 30);
 
     var t2 = setTimeout(function() {
-      assert.equal(circuit.state(w3), true);
-      clearTimeout(t1);
-      clearTimeout(t2);
+      assert.equal(circuit.state(q[0]), false);
+      assert.equal(circuit.state(qp[0]), true);
       clock.stop();
       done();
     }, 50);
