@@ -25,12 +25,12 @@ function add(a, b) {
   var carry = c.wire();
   var sum = c.wires(8);
 
-  compose.adder(c, in1, in2, carry, sum);
+  gates.adder(c, in1, in2, carry, sum);
 
-  compose.binToWires(c, compose.numToBin(a), in1);
-  compose.binToWires(c, compose.numToBin(b), in2);
+  interface.binToWires(c, interface.numToBin(a), in1);
+  interface.binToWires(c, interface.numToBin(b), in2);
 
-  return compose.wiresToNum(c, sum);
+  return interface.wiresToNum(c, sum);
 }
 
 add(12, 14) // => 26
