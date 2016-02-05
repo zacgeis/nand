@@ -10,7 +10,7 @@ Understanding the power of NAND.
 - not
 - or
 - nor
-- srlatch
+- srlatch (stabilizes looped input)
 - halfadder
 - fulladder
 
