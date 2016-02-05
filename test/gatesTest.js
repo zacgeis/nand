@@ -169,4 +169,46 @@ describe('gates', function() {
       assert.equal(c.state(qp[0]), false);
     });
   });
+  describe('mux', function () {
+    it('1 1 1 selects the 8th', function() {
+      var c = new Circuit();
+
+      var in1 = c.wires(8);
+      var sel = c.wires(3);
+      var out1 = c.wire();
+
+      gates.mux(c, in1, sel, out1);
+
+      c.on(in1[7]);
+
+      c.on(sel[0]);
+      c.on(sel[1]);
+      c.on(sel[2]);
+
+      assert.equal(c.state(out1), true);
+
+      c.off(in1[7]);
+
+      assert.equal(c.state(out1), false);
+    });
+    it('0 0 1 selects the 2nd', function() {
+      var c = new Circuit();
+
+      var in1 = c.wires(8);
+      var sel = c.wires(3);
+      var out1 = c.wire();
+
+      gates.mux(c, in1, sel, out1);
+
+      c.on(in1[1]);
+
+      c.on(sel[0]);
+
+      assert.equal(c.state(out1), true);
+
+      c.off(in1[1]);
+
+      assert.equal(c.state(out1), false);
+    });
+  });
 });
