@@ -18,6 +18,24 @@ function twoInOneOut(table, callback) {
       assert.equal(c.state(w3), statement[2]);
     });
   });
+  it('works with bundles', function() {
+    var c = new Circuit();
+
+    var w1 = c.wires(table.length);
+    var w2 = c.wires(table.length);
+    var w3 = c.wires(table.length);
+
+    callback(c, w1, w2, w3);
+
+    table.forEach(function(statement, i) {
+      statement[0] ? c.on(w1[i]) : c.off(w1[i]);
+      statement[1] ? c.on(w2[i]) : c.off(w2[i]);
+    });
+
+    table.forEach(function(statement, i) {
+      assert.equal(c.state(w3[i]), statement[2]);
+    });
+  });
 }
 
 function oneInOneOut(table, callback) {
@@ -32,6 +50,22 @@ function oneInOneOut(table, callback) {
       statement[0] ? c.on(w1) : c.off(w1);
 
       assert.equal(c.state(w2), statement[1]);
+    });
+  });
+  it('works with bundles', function() {
+    var c = new Circuit();
+
+    var w1 = c.wires(table.length);
+    var w2 = c.wires(table.length);
+
+    callback(c, w1, w2);
+
+    table.forEach(function(statement, i) {
+      statement[0] ? c.on(w1[i]) : c.off(w1[i]);
+    });
+
+    table.forEach(function(statement, i) {
+      assert.equal(c.state(w2[i]), statement[1]);
     });
   });
 }

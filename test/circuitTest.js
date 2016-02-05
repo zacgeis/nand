@@ -33,5 +33,18 @@ describe('Circuit', function() {
     ], function(c, input1, input2, output1) {
       c.nand(input1, input2, output1);
     });
+    it('works with bundles', function() {
+      var in1 = c.wires(2);
+      var in2 = c.wires(2);
+      var out1 = c.wires(2);
+
+      c.nand(in1, in2, out1);
+
+      c.on(in1[0]);
+      c.on(in1[1]);
+      c.on(in2[1]);
+      assert.equal(c.state(out1[0]), true);
+      assert.equal(c.state(out1[1]), false);
+    });
   });
 });
