@@ -202,6 +202,29 @@ describe('gates', function() {
       assert.equal(c.state(qp[0]), false);
     });
   });
+  describe('dflipflop', function () {
+    it('stores bits', function() {
+      var c = new Circuit();
+
+      var d = c.wires(8);
+      var q = c.wires(8);
+      var qp = c.wires(8);
+
+      gates.dflipflop(c, d, q, qp);
+
+      c.on(d[0]);
+      c.tick();
+      c.off(d[0]);
+
+      assert.equal(c.state(q[0]), true);
+      assert.equal(c.state(qp[0]), false);
+
+      c.tick();
+
+      assert.equal(c.state(q[0]), false);
+      assert.equal(c.state(qp[0]), true);
+    });
+  });
   describe('mux', function () {
     it('1 1 1 selects the 8th', function() {
       var c = new Circuit();
@@ -242,6 +265,30 @@ describe('gates', function() {
       c.off(in1[1]);
 
       assert.equal(c.state(out1), false);
+    });
+    it('works when given an array of bundles', function() {
+      var c = new Circuit();
+
+      var in1 = c.wires(2);
+      var in2 = c.wires(2);
+      var ins = [in1, in2];
+      var sel = c.wire();
+      var out1 = c.wires(2);
+
+      gates.mux(c, ins, sel, out1);
+
+      c.on(in1[0]);
+      c.on(in1[1]);
+
+      c.on(sel);
+
+      assert.equal(c.state(out1[0]), false);
+      assert.equal(c.state(out1[1]), false);
+
+      c.off(sel);
+
+      assert.equal(c.state(out1[0]), true);
+      assert.equal(c.state(out1[1]), true);
     });
   });
 });
