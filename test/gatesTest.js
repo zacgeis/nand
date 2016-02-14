@@ -143,6 +143,39 @@ describe('gates', function() {
       assert.equal(c.state(carry), true);
     });
   });
+  describe('inc', function () {
+    it('increments 1 to 2', function() {
+      var c = new Circuit();
+
+      var in1 = c.wires(8);
+      var carry = c.wire();
+      var sum = c.wires(8);
+
+      gates.inc(c, in1, carry, sum);
+
+      c.on(in1[0]);
+
+      assert.equal(c.state(sum[0]), false);
+      assert.equal(c.state(sum[1]), true);
+    });
+    it('overflows correctly', function() {
+      var c = new Circuit();
+
+      var in1 = c.wires(4);
+      var carry = c.wire();
+      var sum = c.wires(4);
+
+      gates.inc(c, in1, carry, sum);
+
+      c.on(in1[0]);
+      c.on(in1[1]);
+      c.on(in1[2]);
+      c.on(in1[3]);
+
+      assert.equal(c.state(sum[3]), false);
+      assert.equal(c.state(carry), true);
+    });
+  });
   describe('srflipflop', function () {
     it('stores bits', function() {
       var c = new Circuit();

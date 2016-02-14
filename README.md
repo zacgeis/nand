@@ -13,6 +13,10 @@ Understanding the power of NAND.
 - srlatch (stabilizes looped input)
 - halfadder
 - fulladder
+- adder
+- inc
+- srflipflop
+- mux
 
 ### Example
 
