@@ -1,11 +1,11 @@
+var Circuit = require('../lib/circuit');
+
 var assert = require('assert');
 var helper = require('./helper');
 var bridge = require('../lib/bridge');
+var chips = require('../lib/chips');
 
-var Circuit = require('../lib/circuit');
-var computer = require('../lib/computer');
-
-describe('computer', function() {
+describe('chips', function() {
   describe('pc', function() {
     it('keeps count', function() {
       var c = new Circuit();
@@ -17,7 +17,7 @@ describe('computer', function() {
       var inc = c.wire();
       var reset = c.wire();
 
-      computer.pc(c, in1, load, inc, reset, out1);
+      chips.pc(c, in1, load, inc, reset, out1);
 
       c.tick();
 
