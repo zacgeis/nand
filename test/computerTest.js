@@ -1,6 +1,6 @@
 var assert = require('assert');
 var helper = require('./helper');
-var interface = require('../lib/interface');
+var bridge = require('../lib/bridge');
 
 var Circuit = require('../lib/circuit');
 var computer = require('../lib/computer');
@@ -30,7 +30,7 @@ describe('computer', function() {
       c.tick();
       c.tick();
 
-      var num = interface.wiresToNum(c, out1);
+      var num = bridge.wiresToNum(c, out1);
       assert.equal(num, 6);
     });
   });
