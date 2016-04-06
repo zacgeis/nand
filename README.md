@@ -1,6 +1,6 @@
 ## NAND
 
-Understanding the power of NAND.
+From NAND gates to a simple programming language
 
 ### Gate support
 
