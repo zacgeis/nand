@@ -1,0 +1,21 @@
+{
+  "name": "nand",
+  "version": "0.0.0",
+  "description": "From NAND gates to a simple programming language",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "^2.5.3"
+  },
+  "scripts": {
+    "pretest": "tsc -p . --module commonjs",
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zacgeis/nand.git"
+  }
+}
