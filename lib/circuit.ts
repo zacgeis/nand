@@ -18,7 +18,7 @@ export class Circuit {
   }
 
   public wire() {
-    var component = new Component(this.counter++, 'wire');
+    let component = new Component(this.counter++, 'wire');
 
     this.components[component.id] = component;
 
@@ -26,15 +26,15 @@ export class Circuit {
   }
 
   public wires(num) {
-    var bundle = [];
-    for(var i = 0; i < num; i++) {
+    let bundle = [];
+    for(let i = 0; i < num; i++) {
       bundle.push(this.wire());
     }
     return bundle;
   }
 
   public gate(type, input1, input2, output1) {
-    var component = new Component(this.counter++, type);
+    let component = new Component(this.counter++, type);
 
     component.addInput(input1);
     component.addInput(input2);
@@ -54,11 +54,11 @@ export class Circuit {
 
   public gates(type, input1, input2, output1) {
     if(input1 instanceof Array) {
-      var l = input1.length;
+      let l = input1.length;
       if(l !== input2.length || l !== output1.length) {
         throw new Error('size mismatch');
       }
-      for(var i = 0; i < l; i++) {
+      for(let i = 0; i < l; i++) {
         this.gate(type, input1[i], input2[i], output1[i]);
       }
     } else {
@@ -71,13 +71,13 @@ export class Circuit {
   }
 
   public propogate(component) {
-    var descendants = component.output;
+    let descendants = component.output;
 
     while(descendants.length > 0) {
-      var affected = [];
-      for(var i = 0; i < descendants.length; i++) {
-        var descendant = descendants[i];
-        var state = descendant.state;
+      let affected = [];
+      for(let i = 0; i < descendants.length; i++) {
+        let descendant = descendants[i];
+        let state = descendant.state;
         this.touch(descendant);
         if(descendant.state !== state) {
           this._append(affected, descendant.output);
@@ -94,8 +94,8 @@ export class Circuit {
     }
 
     if(component.type === 'nand') {
-      var t1 = component.input[0].state;
-      var t2 = t1;
+      let t1 = component.input[0].state;
+      let t2 = t1;
       if(component.input.length > 1) {
         t2 = component.input[1].state;
       }
@@ -118,8 +118,8 @@ export class Circuit {
   }
 
   public clocks(l) {
-    var bundle = [];
-    for(var i = 0; i < l; i++) {
+    let bundle = [];
+    for(let i = 0; i < l; i++) {
       bundle.push(this.CLOCK);
     }
     return bundle;
@@ -130,12 +130,10 @@ export class Circuit {
   }
 
   private _append(array1, array2) {
-    for(var i = 0; i < array2.length; i++) {
+    for(let i = 0; i < array2.length; i++) {
       if(array1.indexOf(array2[i]) === -1) {
         array1.push(array2[i]);
       }
     }
   }
 }
-
-// TODO Make wire a subclass of component

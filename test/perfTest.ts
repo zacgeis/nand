@@ -7,12 +7,12 @@ import { or } from '../lib/gates';
 
 describe('performs', () => {
   it('with 50K OR gates', () => {
-    var c = new Circuit();
-    var w1 = c.wire();
-    var w2 = w1
-    var w3;
+    let c = new Circuit();
+    let w1 = c.wire();
+    let w2 = w1
+    let w3;
 
-    for(var i = 0; i < 50000; i++) {
+    for(let i = 0; i < 50000; i++) {
       w3 = c.wire();
       or(c, w2, w2, w3);
       w2 = w3;

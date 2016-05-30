@@ -91,12 +91,12 @@ describe('gates', () => {
   });
   describe('srlatch', () => {
     it('keeps state', () => {
-      var c = new Circuit();
+      let c = new Circuit();
 
-      var w1 = c.wire();
-      var w2 = c.wire();
-      var w3 = c.wire();
-      var w4 = c.wire();
+      let w1 = c.wire();
+      let w2 = c.wire();
+      let w3 = c.wire();
+      let w4 = c.wire();
 
       srlatch(c, w1, w2, w3, w4);
 
@@ -113,12 +113,12 @@ describe('gates', () => {
   });
   describe('adder', () => {
     it('1 + 1 = 2', () => {
-      var c = new Circuit();
+      let c = new Circuit();
 
-      var in1 = c.wires(8);
-      var in2 = c.wires(8);
-      var carry = c.wire();
-      var sum = c.wires(8);
+      let in1 = c.wires(8);
+      let in2 = c.wires(8);
+      let carry = c.wire();
+      let sum = c.wires(8);
 
       adder(c, in1, in2, carry, sum);
 
@@ -129,12 +129,12 @@ describe('gates', () => {
       assert.equal(c.state(sum[1]), true);
     });
     it('overflows correctly', () => {
-      var c = new Circuit();
+      let c = new Circuit();
 
-      var in1 = c.wires(8);
-      var in2 = c.wires(8);
-      var carry = c.wire();
-      var sum = c.wires(8);
+      let in1 = c.wires(8);
+      let in2 = c.wires(8);
+      let carry = c.wire();
+      let sum = c.wires(8);
 
       adder(c, in1, in2, carry, sum);
 
@@ -147,11 +147,11 @@ describe('gates', () => {
   });
   describe('inc', () => {
     it('increments 1 to 2', () => {
-      var c = new Circuit();
+      let c = new Circuit();
 
-      var in1 = c.wires(8);
-      var carry = c.wire();
-      var sum = c.wires(8);
+      let in1 = c.wires(8);
+      let carry = c.wire();
+      let sum = c.wires(8);
 
       inc(c, in1, carry, sum);
 
@@ -161,11 +161,11 @@ describe('gates', () => {
       assert.equal(c.state(sum[1]), true);
     });
     it('overflows correctly', () => {
-      var c = new Circuit();
+      let c = new Circuit();
 
-      var in1 = c.wires(4);
-      var carry = c.wire();
-      var sum = c.wires(4);
+      let in1 = c.wires(4);
+      let carry = c.wire();
+      let sum = c.wires(4);
 
       inc(c, in1, carry, sum);
 
@@ -180,12 +180,12 @@ describe('gates', () => {
   });
   describe('srflipflop', () => {
     it('stores bits', () => {
-      var c = new Circuit();
+      let c = new Circuit();
 
-      var s = c.wires(8);
-      var r = c.wires(8);
-      var q = c.wires(8);
-      var qp = c.wires(8);
+      let s = c.wires(8);
+      let r = c.wires(8);
+      let q = c.wires(8);
+      let qp = c.wires(8);
 
       srflipflop(c, s, r, q, qp);
 
@@ -206,11 +206,11 @@ describe('gates', () => {
   });
   describe('dflipflop', () => {
     it('stores bits', () => {
-      var c = new Circuit();
+      let c = new Circuit();
 
-      var d = c.wires(8);
-      var q = c.wires(8);
-      var qp = c.wires(8);
+      let d = c.wires(8);
+      let q = c.wires(8);
+      let qp = c.wires(8);
 
       dflipflop(c, d, q, qp);
 
@@ -229,11 +229,11 @@ describe('gates', () => {
   });
   describe('mux', () => {
     it('1 1 1 selects the 8th', () => {
-      var c = new Circuit();
+      let c = new Circuit();
 
-      var in1 = c.wires(8);
-      var sel = c.wires(3);
-      var out1 = c.wire();
+      let in1 = c.wires(8);
+      let sel = c.wires(3);
+      let out1 = c.wire();
 
       mux(c, in1, sel, out1);
 
@@ -250,11 +250,11 @@ describe('gates', () => {
       assert.equal(c.state(out1), false);
     });
     it('0 0 1 selects the 2nd', () => {
-      var c = new Circuit();
+      let c = new Circuit();
 
-      var in1 = c.wires(8);
-      var sel = c.wires(3);
-      var out1 = c.wire();
+      let in1 = c.wires(8);
+      let sel = c.wires(3);
+      let out1 = c.wire();
 
       mux(c, in1, sel, out1);
 
@@ -269,13 +269,13 @@ describe('gates', () => {
       assert.equal(c.state(out1), false);
     });
     it('works when given an array of bundles', () => {
-      var c = new Circuit();
+      let c = new Circuit();
 
-      var in1 = c.wires(2);
-      var in2 = c.wires(2);
-      var ins = [in1, in2];
-      var sel = c.wire();
-      var out1 = c.wires(2);
+      let in1 = c.wires(2);
+      let in2 = c.wires(2);
+      let ins = [in1, in2];
+      let sel = c.wire();
+      let out1 = c.wires(2);
 
       mux(c, ins, sel, out1);
 

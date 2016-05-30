@@ -7,10 +7,10 @@ import { Circuit } from '../lib/circuit';
 export function twoInOneOut(table, callback) {
   table.forEach((statement) => {
     it(statement.join(' '), () => {
-      var c = new Circuit();
-      var w1 = c.wire();
-      var w2 = c.wire();
-      var w3 = c.wire();
+      let c = new Circuit();
+      let w1 = c.wire();
+      let w2 = c.wire();
+      let w3 = c.wire();
 
       callback(c, w1, w2, w3);
 
@@ -21,11 +21,11 @@ export function twoInOneOut(table, callback) {
     });
   });
   it('works with bundles', () => {
-    var c = new Circuit();
+    let c = new Circuit();
 
-    var w1 = c.wires(table.length);
-    var w2 = c.wires(table.length);
-    var w3 = c.wires(table.length);
+    let w1 = c.wires(table.length);
+    let w2 = c.wires(table.length);
+    let w3 = c.wires(table.length);
 
     callback(c, w1, w2, w3);
 
@@ -43,9 +43,9 @@ export function twoInOneOut(table, callback) {
 export function oneInOneOut(table, callback) {
   table.forEach((statement) => {
     it(statement.join(' '), () => {
-      var c = new Circuit();
-      var w1 = c.wire();
-      var w2 = c.wire();
+      let c = new Circuit();
+      let w1 = c.wire();
+      let w2 = c.wire();
 
       callback(c, w1, w2);
 
@@ -55,10 +55,10 @@ export function oneInOneOut(table, callback) {
     });
   });
   it('works with bundles', () => {
-    var c = new Circuit();
+    let c = new Circuit();
 
-    var w1 = c.wires(table.length);
-    var w2 = c.wires(table.length);
+    let w1 = c.wires(table.length);
+    let w2 = c.wires(table.length);
 
     callback(c, w1, w2);
 
@@ -75,11 +75,11 @@ export function oneInOneOut(table, callback) {
 export function twoInTwoOut(table, callback) {
   table.forEach((statement) => {
     it(statement.join(' '), () => {
-      var c = new Circuit();
-      var w1 = c.wire();
-      var w2 = c.wire();
-      var w3 = c.wire();
-      var w4 = c.wire();
+      let c = new Circuit();
+      let w1 = c.wire();
+      let w2 = c.wire();
+      let w3 = c.wire();
+      let w4 = c.wire();
 
       callback(c, w1, w2, w3, w4);
 
@@ -95,12 +95,12 @@ export function twoInTwoOut(table, callback) {
 export function threeInTwoOut(table, callback) {
   table.forEach((statement) => {
     it(statement.join(' '), () => {
-      var c = new Circuit();
-      var w1 = c.wire();
-      var w2 = c.wire();
-      var w3 = c.wire();
-      var w4 = c.wire();
-      var w5 = c.wire();
+      let c = new Circuit();
+      let w1 = c.wire();
+      let w2 = c.wire();
+      let w3 = c.wire();
+      let w4 = c.wire();
+      let w5 = c.wire();
 
       callback(c, w1, w2, w3, w4, w5);
 

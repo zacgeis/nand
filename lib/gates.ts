@@ -5,8 +5,8 @@ export function nand(c, in1, in2, out1) {
 }
 
 export function or(c, in1, in2, out1) {
-  var a = matchWireSize(c, in1);
-  var b = matchWireSize(c, in1);
+  let a = matchWireSize(c, in1);
+  let b = matchWireSize(c, in1);
 
   nand(c, in1, in1, a);
   nand(c, in2, in2, b);
@@ -14,7 +14,7 @@ export function or(c, in1, in2, out1) {
 }
 
 export function nor(c, in1, in2, out1) {
-  var a = matchWireSize(c, in1);
+  let a = matchWireSize(c, in1);
 
   or(c, in1, in2, a);
   nand(c, a, a, out1);
@@ -25,16 +25,16 @@ export function not(c, in1, out1) {
 }
 
 export function and(c, in1, in2, out1) {
-  var a = matchWireSize(c, in1);
+  let a = matchWireSize(c, in1);
 
   nand(c, in1, in2, a);
   not(c, a, out1);
 }
 
 export function xor(c, in1, in2, out1) {
-  var a = matchWireSize(c, in1);
-  var b = matchWireSize(c, in1);
-  var w = matchWireSize(c, in1);
+  let a = matchWireSize(c, in1);
+  let b = matchWireSize(c, in1);
+  let w = matchWireSize(c, in1);
 
   nand(c, in1, in2, a);
   nand(c, in1, a, b);
@@ -53,9 +53,9 @@ export function halfadder(c, in1, in2, carry, sum) {
 }
 
 export function fulladder(c, in1, in2, in3, carry, sum) {
-  var w1 = matchWireSize(c, in1);
-  var w2 = matchWireSize(c, in1);
-  var w3 = matchWireSize(c, in1);
+  let w1 = matchWireSize(c, in1);
+  let w2 = matchWireSize(c, in1);
+  let w3 = matchWireSize(c, in1);
 
   halfadder(c, in1, in2, w2, w1);
   halfadder(c, w1, in3, w3, sum);
@@ -63,11 +63,11 @@ export function fulladder(c, in1, in2, in3, carry, sum) {
 }
 
 export function adder(c, in1, in2, carry, sum) {
-  var hcarry = c.wire();
+  let hcarry = c.wire();
   halfadder(c, in1[0], in2[0], hcarry, sum[0]);
 
-  for(var i = 1; i < in1.length - 1; i++) {
-    var tcarry = c.wire();
+  for(let i = 1; i < in1.length - 1; i++) {
+    let tcarry = c.wire();
     fulladder(c, in1[i], in2[i], hcarry, tcarry, sum[i]);
     hcarry = tcarry;
   }
@@ -76,16 +76,16 @@ export function adder(c, in1, in2, carry, sum) {
 }
 
 export function inc(c, in1, carry, sum) {
-  var in2 = matchWireSize(c, in1);
+  let in2 = matchWireSize(c, in1);
   c.on(in2[0]);
 
   adder(c, in1, in2, carry, sum);
 }
 
 export function srflipflop(c, s, r, q, qp) {
-  var a = matchWireSize(c, s);
-  var b = matchWireSize(c, s);
-  var clock = matchClockSize(c, s);
+  let a = matchWireSize(c, s);
+  let b = matchWireSize(c, s);
+  let clock = matchClockSize(c, s);
 
   and(c, clock, s, a);
   and(c, clock, r, b);
@@ -94,7 +94,7 @@ export function srflipflop(c, s, r, q, qp) {
 }
 
 export function dflipflop(c, d, q, qp) {
-  var s = matchWireSize(c, d);
+  let s = matchWireSize(c, d);
   not(c, d, s);
 
   srflipflop(c, s, d, q, qp);
@@ -110,17 +110,17 @@ export function mux(c, ins, sel, out1) {
     sel = [sel];
   }
 
-  var orIn = matchWireSize(c, out1);
-  var orOut = matchWireSize(c, out1);
+  let orIn = matchWireSize(c, out1);
+  let orOut = matchWireSize(c, out1);
 
-  for(var x = 0; x < ins.length; x++) {
-    var bits = numToReversedPaddedBitsArray(x, sel.length);
-    var andIn = ins[x];
-    var andOut = matchWireSize(c, out1);
+  for(let x = 0; x < ins.length; x++) {
+    let bits = numToReversedPaddedBitsArray(x, sel.length);
+    let andIn = ins[x];
+    let andOut = matchWireSize(c, out1);
 
-    for(var i = bits.length - 1; i >= 0; i--) {
-      var selbundle = fanWireToMatchSize(sel[i], out1);
-      var nsel = matchWireSize(c, out1);
+    for(let i = bits.length - 1; i >= 0; i--) {
+      let selbundle = fanWireToMatchSize(sel[i], out1);
+      let nsel = matchWireSize(c, out1);
 
       not(c, selbundle, nsel);
 

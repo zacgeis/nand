@@ -6,7 +6,7 @@ import { Circuit } from '../lib/circuit';
 import { twoInOneOut } from './helper';
 
 describe('Circuit', () => {
-  var c;
+  let c;
 
   beforeEach(() => {
     c = new Circuit();
@@ -14,12 +14,12 @@ describe('Circuit', () => {
 
   describe('wire', function () {
     it('starts in an off state', function () {
-      var w = c.wire();
+      let w = c.wire();
 
       assert.equal(c.state(w), false);
     });
     it('can be turned on', function () {
-      var w = c.wire();
+      let w = c.wire();
 
       c.on(w);
       assert.equal(c.state(w), true);
@@ -36,9 +36,9 @@ describe('Circuit', () => {
       c.nand(input1, input2, output1);
     });
     it('works with bundles', () => {
-      var in1 = c.wires(2);
-      var in2 = c.wires(2);
-      var out1 = c.wires(2);
+      let in1 = c.wires(2);
+      let in2 = c.wires(2);
+      let out1 = c.wires(2);
 
       c.nand(in1, in2, out1);
 

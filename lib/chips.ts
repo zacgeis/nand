@@ -2,15 +2,15 @@ import { fanWireToMatchSize, matchWireSize } from './bridge';
 import { inc, mux, dflipflop, adder } from './gates';
 
 export function pc(c, in1, load, inc1, reset, out1) {
-  var overflow = c.wire();
+  let overflow = c.wire();
 
-  var falsebundle = fanWireToMatchSize(c.FALSE, out1);
+  let falsebundle = fanWireToMatchSize(c.FALSE, out1);
 
-  var w1 = matchWireSize(c, out1);
-  var w2 = matchWireSize(c, out1);
-  var w3 = matchWireSize(c, out1);
-  var w4 = matchWireSize(c, out1);
-  var noop = matchWireSize(c, out1);
+  let w1 = matchWireSize(c, out1);
+  let w2 = matchWireSize(c, out1);
+  let w3 = matchWireSize(c, out1);
+  let w4 = matchWireSize(c, out1);
+  let noop = matchWireSize(c, out1);
 
   inc(c, out1, overflow, w1)
   mux(c, [out1, w1], inc1, w2);
@@ -21,10 +21,10 @@ export function pc(c, in1, load, inc1, reset, out1) {
 }
 
 export function alu(cir, in1, in2, op, out1) {
-  var noop = matchWireSize(cir, out1);
+  let noop = matchWireSize(cir, out1);
 
-  var add = matchWireSize(cir, out1);
-  var carry = cir.wire();
+  let add = matchWireSize(cir, out1);
+  let carry = cir.wire();
 
   adder(cir, in1, in2, carry, add);
 
