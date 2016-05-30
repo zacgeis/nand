@@ -1,22 +1,21 @@
 /// <reference path="../typings/index.d.ts"/>
 "use strict";
 var assert = require('assert');
-var circuit_1 = require('../lib/circuit');
+var component_1 = require('../lib/component');
 var gates_1 = require('../lib/gates');
 describe('performs', function () {
     it('with 50K OR gates', function () {
-        var c = new circuit_1.Circuit();
-        var w1 = c.wire();
+        var w1 = new component_1.Wire();
         var w2 = w1;
         var w3;
         for (var i = 0; i < 50000; i++) {
-            w3 = c.wire();
-            gates_1.or(c, w2, w2, w3);
+            w3 = new component_1.Wire();
+            gates_1.or(w2, w2, w3);
             w2 = w3;
         }
-        c.on(w1);
-        assert.equal(c.state(w3), true);
-        c.off(w1);
-        assert.equal(c.state(w3), false);
+        w1.on();
+        assert.equal(w3.state, true);
+        w1.off();
+        assert.equal(w3.state, false);
     });
 });

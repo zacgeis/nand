@@ -1,22 +1,18 @@
 /// <reference path="../typings/index.d.ts"/>
 "use strict";
 var assert = require('assert');
-var circuit_1 = require('../lib/circuit');
+var component_1 = require('../lib/component');
 var helper_1 = require('./helper');
 describe('Circuit', function () {
-    var c;
-    beforeEach(function () {
-        c = new circuit_1.Circuit();
-    });
     describe('wire', function () {
         it('starts in an off state', function () {
-            var w = c.wire();
-            assert.equal(c.state(w), false);
+            var wire = new component_1.Wire();
+            assert.equal(wire.state, false);
         });
         it('can be turned on', function () {
-            var w = c.wire();
-            c.on(w);
-            assert.equal(c.state(w), true);
+            var wire = new component_1.Wire();
+            wire.on();
+            assert.equal(wire.state, true);
         });
     });
     describe('nand', function () {
@@ -25,20 +21,9 @@ describe('Circuit', function () {
             [0, 1, 1],
             [1, 0, 1],
             [1, 1, 0]
-        ], function (c, input1, input2, output1) {
-            c.nand(input1, input2, output1);
-        });
-        it('works with bundles', function () {
-            var in1 = c.wires(2);
-            var in2 = c.wires(2);
-            var out1 = c.wires(2);
-            c.nand(in1, in2, out1);
-            c.on(in1[0]);
-            c.on(in1[1]);
-            c.on(in2[1]);
-            assert.equal(c.state(out1[0]), true);
-            assert.equal(c.state(out1[1]), false);
+        ], function (input1, input2, output1) {
+            var nand = new component_1.Nand();
+            nand.connect(input1, input2, output1);
         });
     });
 });
-// TODO clean up functions

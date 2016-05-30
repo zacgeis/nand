@@ -1,4 +1,4 @@
-export class Clock {
+export class Timer {
   private circuit = null;
   private interval = null;
   private paused = true;
